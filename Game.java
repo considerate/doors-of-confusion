@@ -85,6 +85,18 @@ public class Game implements MessageListener, CommandListener, ClientListener
           public void roomEntered(Room room) {
             System.out.println(room.getLongDescription());
             System.out.println("The room has started burning. You have less than " + Character.timePerRoom +" seconds to leave.");
+
+            boolean trapped = true;
+            for(Exit exit: room.getExits().values()) {
+                if(exit.canPass(me)) {
+                    trapped = false;
+                    break;
+                }
+            }
+            if(trapped) {
+                System.out.println("It's a trap!");
+                playAudio("trap.wav");
+            }
           }
 
           public void exitPassed(String direction, Exit exit) {
