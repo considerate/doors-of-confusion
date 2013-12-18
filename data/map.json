@@ -1,0 +1,63 @@
+{
+    "startingRoom": "084D95F4-E062-4D89-B604-43CE59EE0D9E",
+    "me": {
+        "health": 200
+    },
+    "rooms": [{
+        "id": "084D95F4-E062-4D89-B604-43CE59EE0D9E",
+        "description": "Outside the main entrance of the university",
+        "items": [{
+            "type": "weapon",
+            "name": "Mighty Sword of Pirate Ninja Skulls",
+            "description": "",
+            "spawnRate": 0.7
+        },
+        {
+            "type": "potion",
+            "name": "Greater Health Potion",
+            "spawnRate": 1
+        }],
+        "exits": [{
+            "roomID": "A77D6E61-7394-4EDC-9BEA-5C07BC3077DF",
+            "label": "South",
+            "type": "blue"
+        },
+        {
+            "roomID": "6362163B-E86D-4EFC-93E2-D8E239B378F5",
+            "label": "East",
+            "type": "orange"
+        }]
+    },
+    {
+        "id": "A77D6E61-7394-4EDC-9BEA-5C07BC3077DF",
+        "description": "in a lecture theater",
+        "monsters": [{
+            "name": "Pikachu",
+            "drops": [{
+                "type": "money",
+                "name": "Gold",
+                "count": 10
+            }]
+        }],
+        "exits": [{
+            "roomID": "084D95F4-E062-4D89-B604-43CE59EE0D9E",
+            "label": "North",
+            "type": "orange"
+        },
+        {
+            "roomID": "084D95F4-E062-4D89-B604-43CE59EE0D9E",
+            "label": "West",
+            "type": "blue"
+        }]
+    },
+    {
+        "id": "6362163B-E86D-4EFC-93E2-D8E239B378F5",
+        "description": "in the campus pub",
+        "exits": [{
+            "roomID": "084D95F4-E062-4D89-B604-43CE59EE0D9E",
+            "label": "West",
+            "type": "blue"
+        }]
+    }]
+}
+
