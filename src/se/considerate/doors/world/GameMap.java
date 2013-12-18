@@ -1,3 +1,5 @@
+package se.considerate.doors.world;
+
 import java.util.HashMap;
 
 public class GameMap {

@@ -1,3 +1,5 @@
+package se.considerate.doors.world;
+
 public class Exit {
   private Room room;
   private String type;

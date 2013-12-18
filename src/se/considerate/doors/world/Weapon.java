@@ -1,3 +1,5 @@
+package se.considerate.doors.world;
+
 public class Weapon extends Item {
   public Weapon(String name) {
     super(name);

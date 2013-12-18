@@ -1,3 +1,5 @@
+package se.considerate.doors;
+
 public class Main {
   public static void main(String[] args) {
     String matchMakerHost = args[0];

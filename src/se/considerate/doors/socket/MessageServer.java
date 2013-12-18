@@ -1,6 +1,10 @@
+package se.considerate.doors.socket;
+
 import java.net.*;
 import java.io.*;
 import java.util.ArrayList;
+
+import se.considerate.doors.socket.MessageServerThread;
 
 public class MessageServer implements Runnable {
   private ServerSocket serverSocket;

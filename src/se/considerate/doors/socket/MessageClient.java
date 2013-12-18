@@ -1,12 +1,9 @@
+package se.considerate.doors.socket;
+
 import java.net.*;
 import java.io.*;
 
 import java.util.ArrayList;
-
-interface ClientListener {
-  public void clientConnected();
-  public void colorSelected(String color,String otherColor);
-}
 
 public class MessageClient {
   private Socket socket;

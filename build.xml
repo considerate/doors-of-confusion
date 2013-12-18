@@ -1,0 +1,48 @@
+<project default="compile">
+    <path id="project.class.path">  
+      <pathelement location="lib/json-simple-1.1.1.jar"/> 
+    </path> 
+    <target name="compile">
+      <mkdir dir="build"/>
+      <javac srcdir="src" destdir="build"> 
+        <classpath>
+          <pathelement location="lib/json-simple-1.1.1.jar"/>
+        </classpath>
+      </javac>
+    </target>
+
+    <target name="jar">
+      <mkdir dir="dist"/>
+      <jar destfile="dist/doors.jar" basedir="build">
+        <zipgroupfileset dir="lib/">
+          <include name="**/*.jar"/>
+        </zipgroupfileset>
+        <zipgroupfileset dir="data/">
+          <include name="**/**"/>
+        </zipgroupfileset>
+        <manifest>
+          <attribute name="Main-Class" value="se.considerate.doors.Main"/>
+        </manifest>
+      </jar>
+    </target>
+
+    <target name="server">
+      <jar destfile="dist/matchmaker.jar" basedir="build">
+        <manifest>
+          <attribute name="Main-Class" value="se.considerate.doors.socket.MatchMaker"/>
+        </manifest>
+      </jar>
+    </target>
+
+    <target name="run">
+      <java jar="dist/doors.jar" classpathref="project.class.path" fork="true">
+        <classpath>
+          <pathelement location="lib/json-simple-1.1.1.jar"/>
+        </classpath>
+        <arg value="127.0.0.1"/>
+        <arg value="8880"/>
+        <arg value="${port}"/>
+        <arg value="2"/>
+      </java>
+    </target>
+</project>

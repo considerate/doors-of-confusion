@@ -1,3 +1,5 @@
+package se.considerate.doors.command;
+
 import java.util.Scanner;
 import java.util.ArrayList;
 
@@ -19,7 +21,6 @@ import java.util.ArrayList;
  */
 public class Parser implements Runnable
 {
-    private CommandWords commands;  // holds all valid command words
     private Scanner reader;         // source of command input
     private boolean running;
     private ArrayList<CommandListener> listeners = new ArrayList<CommandListener>();
@@ -29,7 +30,6 @@ public class Parser implements Runnable
      */
     public Parser() 
     {
-        commands = new CommandWords();
         reader = new Scanner(System.in);
         this.running = true;
     }

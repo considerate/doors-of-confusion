@@ -1,3 +1,5 @@
+package se.considerate.doors.world;
+
 public class Item {
   private String name;
   private String description;

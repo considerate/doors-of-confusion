@@ -1,3 +1,5 @@
+package se.considerate.doors.world;
+
 import java.util.Iterator;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -5,19 +7,8 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.io.PrintStream;
 
-
-interface CharacterListener {
-  public void characterCreated(Room firstRoom);
-  public void helpRequested(HashMap<String,CommandRunner> commands);
-  public void roomEntered(Room room);
-  public void quitGame();
-  public void timeUp();
-  public void cantPass();
-  public void exitPassed(String direction, Exit exit);
-
-  public void commandUnknown(String command);
-  public void roomNotFound();
-}
+import se.considerate.doors.command.Command;
+import se.considerate.doors.command.CommandRunner;
 
 public class Character {
   private float health;
@@ -74,6 +65,7 @@ public class Character {
     });
     commands.put("inspect", new CommandRunner () {
       public void run (Command command) {
+        //TODO: implement inspect command
         //inspect(command);
       }
     });
@@ -84,6 +76,7 @@ public class Character {
     });
     commands.put("pickup", new CommandRunner () {
       public void run (Command command) {
+        //TODO: implement pickup command
         //pickupObject(command);
       }
     });
@@ -96,8 +89,9 @@ public class Character {
 
   /**
    * Given a command, process (that is: execute) the command.
+   * If there is no available command with name of the given command
+   * alert all listeners that we have an unknown command.
    * @param command The command to be processed.
-   * @return true If the command ends the game, false otherwise.
    */
   public void processCommand(Command command) {
     String commandWord = command.getCommandWord();
@@ -111,10 +105,6 @@ public class Character {
     runner.run(command);
   }
 
-
-  /**
-   * Print out the opening message for the player.
-   */
   public void welcome()
   {
     Room firstRoom = currentRoom;
@@ -123,26 +113,23 @@ public class Character {
     }
   }
 
-  /**
-   * Print out some help information.
-   * Here we print some stupid, cryptic message and a list of the
-   * command words.
-   */
   public void printHelp() {
     for(CharacterListener listener: listeners) {
       listener.helpRequested(commands);
     }
   }
 
-  /**
-   * Try to in to one direction. If there is an exit, enter the new
-   * room, otherwise print an error message.
-   */
   private void goRoom(Command command) {
+    if(command == null) {
+      return;
+    }
+
     String direction = command.getSecondWord();
 
     // Try to leave current room.
     Exit exit = currentRoom.getExit(direction);
+    System.out.println(direction);
+    System.out.println(exit);
     if(!exit.canPass(this)) {
       for(CharacterListener listener: listeners) {
         listener.cantPass();
@@ -155,7 +142,7 @@ public class Character {
     }
 
     timer.cancel();
-    //A timer can't be canceled twice.
+    //A timer can't be cancelled twice.
     //Create a new one.
     timer = new Timer();
     timer.schedule(new TimeoutTask(), 1000 * timePerRoom);
@@ -166,11 +153,10 @@ public class Character {
     }
   }
 
-  /**
-   * "Quit" was entered. Check the rest of the command to see
-   * whether we really quit the game.
-   */
   private void quit(Command command) {
+    if(command == null) {
+      return;
+    }
     for(CharacterListener listener: listeners) {
       listener.quitGame();
     }

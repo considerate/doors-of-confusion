@@ -1,3 +1,5 @@
+package se.considerate.doors.world;
+
 import java.util.Set;
 import java.util.HashMap;
 import java.util.ArrayList;
@@ -120,7 +122,7 @@ public class Room
     public Exit getExit(String direction) 
     {
         String key = direction.toLowerCase();
-        return exits.get(key);
+        return exits.get(key); 
     }
 }
 

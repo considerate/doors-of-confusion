@@ -1,3 +1,5 @@
+package se.considerate.doors;
+
 /**
  *  This class is the main class of the "World of Zuul" application. 
  *  "World of Zuul" is a very simple, text based adventure game.  Users 
@@ -31,6 +33,23 @@ import org.json.simple.parser.JSONParser;
 
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
+
+import se.considerate.doors.command.Command;
+import se.considerate.doors.command.CommandListener;
+import se.considerate.doors.command.CommandRunner;
+import se.considerate.doors.command.Parser;
+
+import se.considerate.doors.socket.MessageClient;
+import se.considerate.doors.socket.ClientListener;
+import se.considerate.doors.socket.MessageListener;
+import se.considerate.doors.socket.MessageServer;
+
+import se.considerate.doors.world.Character;
+import se.considerate.doors.world.CharacterListener;
+import se.considerate.doors.world.MapParser;
+import se.considerate.doors.world.GameMap;
+import se.considerate.doors.world.Room;
+import se.considerate.doors.world.Exit;
 
 
 public class Game implements MessageListener, CommandListener, ClientListener
@@ -95,19 +114,19 @@ public class Game implements MessageListener, CommandListener, ClientListener
             }
             if(trapped) {
                 System.out.println("It's a trap!");
-                playAudio("trap.wav");
+                playAudio("data/trap.wav");
             }
           }
 
           public void exitPassed(String direction, Exit exit) {
             if("west".equals(direction)) {
-                playAudio("gowest.aif");
+                playAudio("data/gowest.aif");
             }
           }
 
           public void cantPass() {
             System.out.println("You shall not pass!!!!");
-            playAudio("lotr.aif");
+            playAudio("data/lotr.aif");
           }
 
           public void quitGame() {
@@ -138,7 +157,7 @@ public class Game implements MessageListener, CommandListener, ClientListener
      */
     private GameMap createMap()
     {
-        mapParser = new MapParser("map.json");
+        mapParser = new MapParser("data/map.json");
         GameMap map = mapParser.parseMap();
         return map;
     }
