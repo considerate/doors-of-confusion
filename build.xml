@@ -17,9 +17,9 @@
         <zipgroupfileset dir="lib/">
           <include name="**/*.jar"/>
         </zipgroupfileset>
-        <zipgroupfileset dir="data/">
+        <!--<zipgroupfileset dir="data/">
           <include name="**/**"/>
-        </zipgroupfileset>
+        </zipgroupfileset>-->
         <manifest>
           <attribute name="Main-Class" value="se.considerate.doors.Main"/>
         </manifest>

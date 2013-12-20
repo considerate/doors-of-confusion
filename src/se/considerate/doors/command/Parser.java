@@ -43,18 +43,14 @@ public class Parser implements Runnable
     }
 
     public Command parseCommand(String inputLine) {
-        String word1 = null;
-        String word2 = null;
-        // Find up to two words on the line.
         Scanner tokenizer = new Scanner(inputLine);
-        if(tokenizer.hasNext()) {
-            word1 = tokenizer.next();      // get first word
-            if(tokenizer.hasNext()) {
-                word2 = tokenizer.next();      // get second word
-                // note: we just ignore the rest of the input line.
-            }
+        ArrayList<String> words = new ArrayList();
+        while(tokenizer.hasNext()) {
+            String word = tokenizer.next();
+            words.add(word);
         }
-        Command command = new Command(word1, word2);;
+        String[] wordArray = words.toArray(new String[words.size()]);
+        Command command = new Command(wordArray);
         return command;
     }
 

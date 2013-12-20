@@ -44,12 +44,13 @@ import se.considerate.doors.socket.ClientListener;
 import se.considerate.doors.socket.MessageListener;
 import se.considerate.doors.socket.MessageServer;
 
-import se.considerate.doors.world.Character;
-import se.considerate.doors.world.CharacterListener;
+import se.considerate.doors.world.Player;
+import se.considerate.doors.world.PlayerListener;
 import se.considerate.doors.world.MapParser;
 import se.considerate.doors.world.GameMap;
 import se.considerate.doors.world.Room;
 import se.considerate.doors.world.Exit;
+import se.considerate.doors.world.Item;
 
 
 public class Game implements MessageListener, CommandListener, ClientListener
@@ -60,8 +61,8 @@ public class Game implements MessageListener, CommandListener, ClientListener
     private MessageServer server;
     private MessageClient client;
     private String remoteHost;
-    private Character me;
-    private Character playerTwo;
+    private Player me;
+    private Player playerTwo;
         
     /**
      * Create the game and initialise its internal map.
@@ -78,20 +79,20 @@ public class Game implements MessageListener, CommandListener, ClientListener
         client = new MessageClient();
         client.addEventListener(this);
 
-        me = new Character();
+        me = new Player();
         me.setCurrentRoom(map.getFirstRoom());
-        me.addEventListener(new CharacterListener() {
+        me.addEventListener(new PlayerListener() {
           public void characterCreated(Room firstRoom) {
             System.out.println();
-            System.out.println("Welcome to the World of Zuul!");
-            System.out.println("World of Zuul is a new, incredibly boring adventure game.");
+            System.out.println("You have stepped into the world of doors of confusion!");
+            System.out.println("You spot a weird character in the distance. He calls your name.");
             System.out.println("Type 'help' if you need help.");
             System.out.println();
             System.out.println(firstRoom.getLongDescription());
           }
           public void helpRequested(HashMap<String,CommandRunner> commands) {
-            System.out.println("You are lost. You are alone. You wander");
-            System.out.println("around at the university.");
+            System.out.println("You can only pass through doors with the same color as your hat.");
+            System.out.println("Your hat is "+me.getColor()+".");
             System.out.println();
             System.out.println("Your command words are:");
 
@@ -103,7 +104,7 @@ public class Game implements MessageListener, CommandListener, ClientListener
           }
           public void roomEntered(Room room) {
             System.out.println(room.getLongDescription());
-            System.out.println("The room has started burning. You have less than " + Character.timePerRoom +" seconds to leave.");
+            System.out.println("The room has started burning. You have less than " + Player.timePerRoom +" seconds to leave.");
 
             boolean trapped = true;
             for(Exit exit: room.getExits().values()) {
@@ -118,6 +119,21 @@ public class Game implements MessageListener, CommandListener, ClientListener
             }
           }
 
+          public void inspectRoom(Room room) {
+            System.out.println("Looking around the room...");
+            ArrayList<Item> items = room.getItems();
+            if(items.size() > 0) {
+                System.out.println("There are some items here.\n");
+                for(Item item: items) {
+                    System.out.println(item);
+                }
+            }
+          }
+
+          public void inspectFailed(String command) {
+            System.out.println("Failed to inspect "+command);
+          }
+
           public void exitPassed(String direction, Exit exit) {
             if("west".equals(direction)) {
                 playAudio("data/gowest.aif");
@@ -130,7 +146,7 @@ public class Game implements MessageListener, CommandListener, ClientListener
           }
 
           public void quitGame() {
-            System.out.println("You're a quitter. You gave up and commited suicide.");
+            System.out.println("You're a quitter. You gave up and committed suicide.");
             System.exit(0);
           }
           public void timeUp() {
@@ -146,7 +162,7 @@ public class Game implements MessageListener, CommandListener, ClientListener
             System.out.println("There's no exit in that direction");
           }
         });
-        playerTwo = new Character();
+        playerTwo = new Player();
         playerTwo.setCurrentRoom(map.getFirstRoom());
 
         client.connect(matchMakerHost, matchMakerPort, port);
@@ -210,6 +226,7 @@ public class Game implements MessageListener, CommandListener, ClientListener
         if(!command.isUnknown()) {
             JSONObject object = new JSONObject();
             object.put("command", command.toString());
+            object.put("type","command");
             object.put("time", System.nanoTime());
             client.sendMessage(object.toString());
         }
@@ -217,7 +234,6 @@ public class Game implements MessageListener, CommandListener, ClientListener
 
     @Override
     public void clientConnected() {
-        //play();
     }
 
     @Override

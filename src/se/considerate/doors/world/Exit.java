@@ -17,8 +17,8 @@ public class Exit {
     return this.type;
   }
 
-  public boolean canPass(Character character) {
-    String color = character.getColor();
+  public boolean canPass(Player player) {
+    String color = player.getColor();
     String type = this.type;
     if(type.equals(color)) {
       return true;

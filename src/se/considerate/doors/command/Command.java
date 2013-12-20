@@ -21,20 +21,24 @@ package se.considerate.doors.command;
 
 public class Command
 {
-    private String commandWord;
-    private String secondWord;
+    private String commandWord = null;
+    private String secondWord = null;
+    private final String[] words;
 
     /**
      * Create a command object. First and second word must be supplied, but
      * either one (or both) can be null.
-     * @param firstWord The first word of the command. Null if the command
-     *                  was not recognised.
-     * @param secondWord The second word of the command.
      */
-    public Command(String firstWord, String secondWord)
+    public Command(String[] words)
     {
-        commandWord = firstWord;
-        this.secondWord = secondWord;
+        System.out.println(words.length);
+        if(words.length >= 1) {
+            this.commandWord = words[0];
+        }
+        if(words.length >= 2) {
+            this.secondWord = words[1];
+        }
+        this.words = words;
     }
 
     /**
@@ -54,6 +58,10 @@ public class Command
     public String getSecondWord()
     {
         return secondWord;
+    }
+
+    public String[] getWords() {
+        return this.words;
     }
 
     /**

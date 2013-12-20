@@ -91,16 +91,25 @@ public class MapParser {
       for(Object obj: itemArray) {
         JSONObject itemJSON = (JSONObject) obj;
         Item item = parseItem(itemJSON);
-        room.addItem(item);
+        spwanItem(item, room);
       }
     }
 
     return room;
   }
 
+  private void spwanItem(Item item, Room room) {
+    float random = (float) Math.random();
+    float spawnRate = item.getSpawnRate();
+    if(spawnRate >= random) {
+      room.addItem(item);
+    }
+  }
+
   private Item parseItem(JSONObject itemJSON) {
     String name = (String) itemJSON.get("name");
     String type = (String) itemJSON.get("type");
+    float spawnRate = ((Number) itemJSON.get("spawnRate")).floatValue();
     Item item = null;
     if(type.equals("weapon")) {
       Weapon weapon = new Weapon(name);
@@ -109,6 +118,7 @@ public class MapParser {
       Potion potion = new Potion(name);
       item = potion;
     }
+    item.setSpawnRate(spawnRate);
     return item;
   }
 
